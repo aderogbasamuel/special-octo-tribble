@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Join Starkstores</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#ffffff;
+    --surface:#fcfcfb;
+    --ink:#111319;
+    --ink-dim:#5b6272;
+    --line:#0d0d10;
+    --blue:#1a3fc4;
+    --blue-dark:#132e94;
+    --blue-soft:#eef1fc;
+    --gold:#c9971f;
+    --gold-deep:#8f6a1e;
+    --gold-soft:#fbf1da;
+    --error:#c1443a;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:'Inter', sans-serif;
+  }
+  .container{ max-width:960px; margin:0 auto; padding:0 24px; }
+  a{ color:inherit; }
+
+  /* ---------- NAV ---------- */
+  nav{
+    border-bottom:2px solid var(--line);
+    padding:20px 0;
+  }
+  .nav-inner{ display:flex; justify-content:space-between; align-items:center; }
+  .wordmark{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:18px;
+    letter-spacing:-0.01em;
+  }
+  .wordmark .dot{ color:var(--gold); }
+  .nav-cta{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13px;
+    font-weight:600;
+    background:var(--ink);
+    color:#fff;
+    padding:9px 18px;
+    text-decoration:none;
+  }
+  .nav-cta:hover{ background:var(--blue); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:64px 0 56px;
+    display:grid;
+    grid-template-columns:1.15fr 0.85fr;
+    gap:40px;
+    align-items:center;
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'Space Grotesk', sans-serif;
+    font-size:11.5px; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--blue); font-weight:600;
+    padding:5px 10px; border:1.5px solid var(--blue);
+    margin-bottom:22px;
+  }
+  h1{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:clamp(36px, 5.4vw, 54px);
+    line-height:1.08;
+    letter-spacing:-0.02em;
+    margin-bottom:20px;
+  }
+  h1 .mark{
+    background:var(--gold);
+    color:var(--ink);
+    padding:2px 10px;
+    display:inline-block;
+    box-shadow:4px 4px 0 var(--ink);
+    margin-top:6px;
+  }
+  .hero .sub{
+    color:var(--ink-dim);
+    font-size:17px;
+    line-height:1.6;
+    max-width:46ch;
+    margin-bottom:28px;
+  }
+  .hero-actions{ display:flex; gap:12px; flex-wrap:wrap; }
+  .btn-primary{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600; font-size:15px;
+    background:var(--blue); color:#fff;
+    border:2px solid var(--line);
+    padding:13px 22px;
+    text-decoration:none;
+    display:inline-block;
+    box-shadow:3px 3px 0 var(--line);
+    transition:transform 0.1s ease;
+  }
+  .btn-primary:hover{ transform:translate(-2px,-2px); box-shadow:5px 5px 0 var(--line); }
+
+  /* Hero graphic: color-blocked geometric composition */
+  .hero-graphic{
+    position:relative;
+    aspect-ratio:1/1;
+    max-width:340px;
+    justify-self:end;
+  }
+  .blob{
+    position:absolute;
+    border:2px solid var(--line);
+  }
+  .b1{ width:62%; height:62%; background:var(--blue); top:0; right:0; }
+  .b2{ width:46%; height:46%; background:var(--gold); bottom:6%; left:0; }
+  .b3{
+    width:38%; height:38%; background:var(--bg);
+    bottom:0; right:14%;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .b3 svg{ width:55%; height:55%; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding:64px 0; border-top:2px solid var(--line); }
+  .section-tag{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--gold-deep);
+    margin-bottom:14px;
+  }
+  h2{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    font-size:clamp(24px, 3.6vw, 32px);
+    letter-spacing:-0.01em;
+    margin-bottom:18px;
+    max-width:20ch;
+  }
+  .lead{
+    color:var(--ink-dim);
+    font-size:16px;
+    line-height:1.65;
+    max-width:58ch;
+    margin-bottom:36px;
+  }
+
+  /* ---------- FEATURE GRID ---------- */
+  .feature-grid{
+    display:grid;
+    grid-template-columns:repeat(3, 1fr);
+    gap:0;
+    border:2px solid var(--line);
+  }
+  .feature{
+    padding:26px 22px;
+    border-right:2px solid var(--line);
+  }
+  .feature:last-child{ border-right:none; }
+  .feature .icon{
+    width:38px; height:38px;
+    border:2px solid var(--line);
+    background:var(--blue-soft);
+    display:flex; align-items:center; justify-content:center;
+    margin-bottom:16px;
+  }
+  .feature:nth-child(2) .icon{ background:var(--gold-soft); }
+  .feature .icon svg{ width:20px; height:20px; }
+  .feature h3{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:15px; font-weight:600;
+    margin-bottom:8px;
+  }
+  .feature p{
+    color:var(--ink-dim);
+    font-size:14px; line-height:1.55;
+  }
+
+  /* ---------- TEAM VIBE ---------- */
+  .vibe{
+    background:var(--ink);
+    color:#fff;
+  }
+  .vibe .section-tag{ color:var(--gold); }
+  .vibe h2{ color:#fff; }
+  .vibe .lead{ color:#c7cbdb; }
+  .vibe-list{ display:grid; grid-template-columns:1fr 1fr; gap:20px 32px; }
+  .vibe-item{ display:flex; gap:14px; }
+  .vibe-item .num{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700; font-size:15px;
+    color:var(--gold);
+    flex-shrink:0;
+  }
+  .vibe-item p{ color:#dde0ec; font-size:14.5px; line-height:1.55; }
+
+  /* ---------- ROLES TEASER ---------- */
+  .roles-row{ display:flex; gap:12px; flex-wrap:wrap; margin-bottom:8px; }
+  .role-chip{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:13.5px; font-weight:600;
+    border:2px solid var(--line);
+    padding:9px 16px;
+    background:var(--bg);
+  }
+  .role-chip:nth-child(1){ background:var(--blue-soft); }
+  .role-chip:nth-child(2){ background:var(--gold-soft); }
+  .role-chip:nth-child(3){ background:var(--blue-soft); }
+  .role-chip:nth-child(4){ background:var(--gold-soft); }
+
+  /* ---------- FORM ---------- */
+  #apply{ padding-top:64px; }
+  .doc{
+    position:relative;
+    border:2px solid var(--line);
+    background:var(--surface);
+    padding:40px 32px;
+  }
+  .tick{ position:absolute; width:14px; height:14px; border:2px solid var(--line); }
+  .tick.tl{ top:-2px; left:-2px; border-right:none; border-bottom:none; }
+  .tick.tr{ top:-2px; right:-2px; border-left:none; border-bottom:none; }
+  .tick.bl{ bottom:-2px; left:-2px; border-right:none; border-top:none; }
+  .tick.br{ bottom:-2px; right:-2px; border-left:none; border-top:none; }
+
+  .section-label{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:12px; font-weight:600; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--blue); margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .section-label .n{
+    color:#fff; background:var(--blue);
+    width:20px; height:20px;
+    display:inline-flex; align-items:center; justify-content:center;
+    font-size:11px; flex-shrink:0;
+  }
+  .section-label::after{ content:''; flex:1; height:1px; background:var(--line); opacity:0.15; }
+
+  .row{ display:flex; gap:16px; }
+  .row .field{ flex:1; }
+  .field{ margin-bottom:22px; }
+  .field:last-of-type{ margin-bottom:0; }
+  label{ display:block; font-size:13px; font-weight:600; color:var(--ink); margin-bottom:7px; }
+  label .req{ color:var(--gold-deep); margin-left:2px; }
+  label .opt{ color:var(--ink-dim); font-weight:400; margin-left:6px; font-size:12px; }
+  input, select, textarea{
+    width:100%; background:var(--bg); border:1.5px solid var(--line); color:var(--ink);
+    font-family:'Inter', sans-serif; font-size:15px; padding:11px 13px; border-radius:0;
+  }
+  input::placeholder, textarea::placeholder{ color:#a3a8b8; }
+  textarea{ resize:vertical; min-height:100px; line-height:1.5; }
+  input:focus, select:focus, textarea:focus{ outline:none; border-color:var(--blue); background:var(--blue-soft); }
+  input:focus-visible, select:focus-visible, textarea:focus-visible{ outline:2px solid var(--blue); outline-offset:1px; }
+  select{
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1L6 6L11 1' stroke='%23111319' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center; padding-right:36px;
+  }
+  .hint{ font-size:12.5px; color:var(--ink-dim); margin-top:6px; line-height:1.4; }
+  .err-msg{ font-size:12.5px; color:var(--error); margin-top:6px; display:none; }
+  .field.invalid input, .field.invalid select, .field.invalid textarea{ border-color:var(--error); }
+  .field.invalid .err-msg{ display:block; }
+  .divider{ height:1.5px; background:var(--line); opacity:0.1; margin:34px 0; }
+  button{
+    width:100%; background:var(--gold); color:var(--bg);
+    border:1.5px solid var(--line);
+    font-family:'Space Grotesk', sans-serif; font-weight:600; font-size:15px; letter-spacing:0.02em;
+    padding:15px; cursor:pointer; margin-top:36px;
+    transition:background 0.15s ease, transform 0.1s ease;
+  }
+  button:hover{ background:var(--gold-deep); }
+  button:active{ transform:scale(0.99); }
+  button:disabled{ background:#e5e7eb; color:var(--ink-dim); border-color:#d1d5db; cursor:not-allowed; }
+  button:focus-visible{ outline:2px solid var(--blue); outline-offset:2px; }
+  .status{ margin-top:20px; padding:14px 16px; border:1.5px solid var(--line); font-size:14px; line-height:1.5; display:none; }
+  .status.show{ display:block; }
+  .status.success{ background:var(--gold-soft); border-color:var(--gold); }
+  .status.error{ background:#fdf0ef; border-color:var(--error); }
+
+  footer{ border-top:2px solid var(--line); padding:28px 0; text-align:center; color:var(--ink-dim); font-size:12.5px; }
+
+  @media (max-width: 720px){
+    .hero{ grid-template-columns:1fr; }
+    .hero-graphic{ justify-self:start; max-width:240px; }
+    .feature-grid{ grid-template-columns:1fr; }
+    .feature{ border-right:none; border-bottom:2px solid var(--line); }
+    .feature:last-child{ border-bottom:none; }
+    .vibe-list{ grid-template-columns:1fr; }
+    .row{ flex-direction:column; gap:0; }
+    .doc{ padding:28px 20px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="container nav-inner">
+    <div class="wordmark">STARKSTORES<span class="dot">.</span></div>
+    <a href="#apply" class="nav-cta">Apply now</a>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="hero">
+    <div>
+      <div class="eyebrow">Team Application</div>
+      <h1>Help build the campus<br><span class="mark">trust layer.</span></h1>
+      <p class="sub">Starkstores is a peer-to-peer marketplace built for one campus at a time — buy and sell with people you actually go to school with, backed by escrow so nobody gets played.</p>
+      <div class="hero-actions">
+        <a href="#apply" class="btn-primary">Apply for a role →</a>
+      </div>
+    </div>
+    <div class="hero-graphic">
+      <div class="blob b1"></div>
+      <div class="blob b2"></div>
+      <div class="blob b3">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#111319" stroke-width="1.8">
+          <rect x="4" y="10" width="16" height="10" rx="1"/>
+          <path d="M8 10V7a4 4 0 0 1 8 0v3"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section>
+  <div class="container">
+    <div class="section-tag">What we're building</div>
+    <h2>A marketplace that only works because it's small.</h2>
+    <p class="lead">No strangers from across the country, no shipping black holes. Just people on the same campus, trading with each other, protected by an escrow layer that holds funds until a delivery is actually confirmed.</p>
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fc4" stroke-width="1.8"><rect x="4" y="10" width="16" height="10" rx="1"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <h3>Escrow, not trust falls</h3>
+        <p>Funds sit in escrow until the buyer confirms delivery. No more "did they actually send it" DMs.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#8f6a1e" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M9 12l2 2 4-4"/></svg>
+        </div>
+        <h3>Campus-only, by design</h3>
+        <p>Every listing is scoped to a real campus community — you're trading with people you can actually run into.</p>
+      </div>
+      <div class="feature">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#1a3fc4" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </div>
+        <h3>Built in the open with users</h3>
+        <p>We ship fast, talk to the people using it constantly, and change direction when the data says to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="vibe">
+  <div class="container">
+    <div class="section-tag">What it's like on the team</div>
+    <h2>Small team, real ownership.</h2>
+    <p class="lead">We're early. That means whoever joins isn't executing someone else's roadmap — they're helping write it.</p>
+    <div class="vibe-list">
+      <div class="vibe-item"><span class="num">01</span><p>You'll own a real piece of the product or the growth engine, not a slice of a ticket queue.</p></div>
+      <div class="vibe-item"><span class="num">02</span><p>Weekly syncs, direct access to the founders, no layers between an idea and it shipping.</p></div>
+      <div class="vibe-item"><span class="num">03</span><p>We move fast and expect the same — this is a build-in-public, figure-it-out environment.</p></div>
+      <div class="vibe-item"><span class="num">04</span><p>Being a student comes first. We work around your schedule, not the other way around.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="apply">
+  <div class="container">
+    <div class="section-tag">Open roles</div>
+    <h2>Where you could fit in.</h2>
+    <div class="roles-row">
+      <span class="role-chip">Growth / Community</span>
+      <span class="role-chip">Backend Dev</span>
+      <span class="role-chip">Design</span>
+      <span class="role-chip">Ops / Ops-support</span>
+    </div>
+    <p class="lead" style="margin-top:16px;">Don't see an exact fit? Apply anyway and tell us where you think you'd add the most value.</p>
+
+    <form id="applyForm" novalidate class="doc">
+      <span class="tick tl"></span>
+      <span class="tick tr"></span>
+      <span class="tick bl"></span>
+      <span class="tick br"></span>
+
+      <!-- Honeypot: hidden from real users, catnip for bots. Do not remove. -->
+      <div style="position:absolute; left:-9999px; top:-9999px;" aria-hidden="true">
+        <label for="company">Company</label>
+        <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+      </div>
+
+      <div class="section-label"><span class="n">1</span>About you</div>
+      <div class="row">
+        <div class="field" data-field="name">
+          <label for="name">Full name<span class="req">*</span></label>
+          <input type="text" id="name" name="name" placeholder="Adaeze Okonkwo" autocomplete="name">
+          <p class="err-msg">Enter your full name.</p>
+        </div>
+        <div class="field" data-field="email">
+          <label for="email">Email<span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email">
+          <p class="err-msg">Enter a valid email.</p>
+        </div>
+      </div>
+      <div class="field" data-field="phone">
+        <label for="phone">Phone number <span class="opt">optional</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="+234..." autocomplete="tel">
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="section-label"><span class="n">2</span>The role</div>
+      <div class="row">
+        <div class="field" data-field="role">
+          <label for="role">Role<span class="req">*</span></label>
+          <select id="role" name="role">
+            <option value="" disabled selected>Select a role</option>
+            <option value="Growth/Community">Growth / Community</option>
+            <option value="Backend Dev">Backend Dev</option>
+            <option value="Design">Design</option>
+            <option value="Ops/Ops-support">Ops / Ops-support</option>
+          </select>
+          <p class="err-msg">Select the role you're applying for.</p>
+        </div>
+        <div class="field" data-field="link">
+          <label for="link">Portfolio / GitHub <span class="opt">optional</span></label>
+          <input type="url" id="link" name="link" placeholder="https://">
+        </div>
+      </div>
+      <div class="field" data-field="why">
+        <label for="why">Why this role, and why Starkstores?<span class="req">*</span></label>
+        <textarea id="why" name="why" placeholder="A few sentences on relevant experience and what draws you to this."></textarea>
+        <p class="err-msg">Tell us a bit about yourself — a couple of sentences is fine.</p>
+      </div>
+      <div class="field" data-field="availability">
+        <label for="availability">Availability<span class="req">*</span></label>
+        <input type="text" id="availability" name="availability" placeholder="e.g. 10-15 hrs/week, can start immediately">
+        <p class="err-msg">Let us know your availability.</p>
+      </div>
+
+      <button type="submit" id="submitBtn">Submit application</button>
+      <div class="status" id="statusBox"></div>
+    </form>
+  </div>
+</section>
+
+<footer>
+  <div class="container">Starkstores &middot; We'll get back to you within a week &middot; No spam, no forwarding your info elsewhere.</div>
+</footer>
+
+<script>
+  const ENDPOINT_URL = "https://starkstores.com.ng/api/apply";
+  const form = document.getElementById('applyForm');
+  const statusBox = document.getElementById('statusBox');
+  const submitBtn = document.getElementById('submitBtn');
+  const required = ['name','email','role','why','availability'];
+
+  function setInvalid(fieldName, invalid){
+    const el = form.querySelector(`[data-field="${fieldName}"]`);
+    if(el) el.classList.toggle('invalid', invalid);
+  }
+  function isValidEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  function validate(data){
+    let ok = true;
+    required.forEach(f => {
+      const val = (data[f] || '').trim();
+      const invalid = !val;
+      setInvalid(f, invalid);
+      if(invalid) ok = false;
+    });
+    if(data.email && !isValidEmail(data.email.trim())){
+      setInvalid('email', true);
+      ok = false;
+    }
+    return ok;
+  }
+
+  function showStatus(type, msg){
+    statusBox.className = `status show ${type}`;
+    statusBox.textContent = msg;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    statusBox.className = 'status';
+    const formData = new FormData(form);
+    const data = Object.fromEntries(formData.entries());
+
+    if(!validate(data)){
+      showStatus('error', 'A few fields need attention above before this can be sent.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try{
+      const res = await fetch(ENDPOINT_URL, {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      });
+      if(!res.ok) throw new Error('Request failed');
+      form.reset();
+      showStatus('success', "Application received. We'll get back to you within a week.");
+    } catch(err){
+      showStatus('error', "Something went wrong sending this — try again, or email the team directly.");
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Submit application';
+    }
+  });
+</script>
+</body>
+</html>
